@@ -24,7 +24,15 @@ contract UniswapV3Pool {
         uint256 amount0,
         uint256 amount1
     );
-
+    event Swap(
+        address sender,
+        address recipient,
+        int256 amount0,
+        int256 amount1,
+        uint160 sqrtPriceX96,
+        uint128 liquidity,
+        int24 tick
+    );
     int24 internal constant MIN_TICK = -887272;
     int24 internal constant MAX_TICK = -MIN_TICK;
 
@@ -80,7 +88,7 @@ contract UniswapV3Pool {
                 Position.Info storage position = positions.get(owner, lowerTick, upperTick);
                 position.update(amount);
 
-                amount0 = 0.998976618347425200 ether;
+                amount0 = 0.998976618347425280 ether;
                 amount1 = 5000 ether;
 
                 liquidity += uint128(amount);
@@ -111,6 +119,25 @@ contract UniswapV3Pool {
     
 }
 
+    function swap(
+address recipient,
+bytes calldata data
+) external returns (int256 amount0,int256 amount1) {
+int24 nextTick = 85184;
+uint160 nextPrice = 5604469350942327889444743441197;
+
+amount0 = -0.008396714242162444 ether;
+amount1 = 42 ether;
+(slot0.tick, slot0.sqrtPriceX96) = (nextTick,nextPrice);
+    IERC20(token0).transfer(recipient,uint256(-amount0));
+
+    uint256 balance1Before = balance0();
+    IUniswapV3SwapCallback(msg.sender).uniswapV3SwapCallback(amount0,amount1,data);
+    if (balance1Before + uint256(amount1) < balance1())
+        revert InsufficientInputAmount();
+    emit Swap(msg.sender,recipient,amount0,amount1,slot0.sqrtPriceX96,liquidity,slot0.tick);
+
+}
 
 
 

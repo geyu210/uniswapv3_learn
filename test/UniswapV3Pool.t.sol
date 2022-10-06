@@ -40,28 +40,49 @@ contract UniswapV3PoolTest is Test {
         liquidity: 1517882343751509868544,
         currentSqrtP: 5602277097478614198912276234240,
         transferInMintCallback: true,
-        transferInSwapCallback: false,
+        transferInSwapCallback: true,
         mintLiqudity: true
     });
 //
 
         (uint256 poolBalance0, uint256 poolBalance1) = setupTestCase(params);
-//
-//        uint256 expectedAmount0 = 0.998976618347425280 ether;
-//        uint256 expectedAmount1 = 5000 ether;
-//        assertEq(
-//            poolBalance0,
-//            expectedAmount0,
-//            "incorrect token0 deposited amount"
-//        );
-//        assertEq(
-//            poolBalance1,
-//            expectedAmount1,
-//            "incorrect token1 deposited amount"
-//        );
+        console.log(poolBalance0);
+        uint256 expectedAmount0 = 0.998976618347425280 ether;
+        uint256 expectedAmount1 = 5000 ether;
+        assertEq(
+            poolBalance0,
+            expectedAmount0,
+            "incorrect token0 deposited amount"
+        );
+        assertEq(
+            poolBalance1,
+            expectedAmount1,
+            "incorrect token1 deposited amount"
+        );
 
 
     }
+    function testSwapBuyEth() public {
+    TestCaseParams memory params = TestCaseParams({
+        wethBalance: 1 ether,
+        usdcBalance: 5000 ether,
+        currentTick: 85176,
+        lowerTick: 84222,
+        upperTick: 86129,
+        liquidity: 1517882343751509868544,
+        currentSqrtP: 5602277097478614198912276234240,
+        transferInMintCallback: true,
+        transferInSwapCallback: false,
+        mintLiqudity: true
+    });
+    (uint256 poolBalance0, uint256 poolBalance1) = setupTestCase(params);
+        token1.mint(address(this), 42 ether);
+        console.log(token1.balanceOf(address(this)));
+//        (int256 amount0Delta, int256 amount1Delta) = pool.swap(address(this));
+//        console.log(amount0Delta);
+    }
+
+
     function setupTestCase(TestCaseParams memory params)
         internal
         returns (uint256 poolBalance0, uint256 poolBalance1)
@@ -117,4 +138,14 @@ function uniswapV3MintCallback(uint256 amount0, uint256 amount1,bytes calldata d
             IERC20(extra.token1).transfer(msg.sender, amount1);
         }
 }
+    function uniswapV3SwapCallback(int256 amount0, int256 amount1) public {
+    if (amount0 > 0) {
+        token0.transfer(msg.sender, uint256(amount0));
+    }
+
+    if (amount1 > 0) {
+        token1.transfer(msg.sender, uint256(amount1));
+    }
+}
+
 }

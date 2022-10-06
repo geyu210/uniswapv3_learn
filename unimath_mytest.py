@@ -23,7 +23,7 @@ print(pricetotick(5500))
 #Uniswap uses Q64.96 number to store \sqrt{P} This is a fixed point number that has 64 bits for the integer part and 96 bits for the fractional part
 def price_to_sqrtp(p):
     return int(math.sqrt(p) * (2 ** 96))
-print(price_to_sqrtp(5000))
+print((f"price_to_sqrtp(5000) = {price_to_sqrtp(5000)}"))
 
 def liquidity0(amount, pa, pb):
     if pa > pb:
@@ -40,8 +40,8 @@ amount_eth = 1 * eth
 amount_usdc = 5000 * eth
 l0 = int(liquidity0(amount_eth,pb,pc))
 l1 = int(liquidity1(amount_usdc,pa,pc))
-print(l0)
-print(l1)
+print(f"l0 = {l0}")
+print(f"l1 = {l1}")
 def cacl_amountx(l,pb,pc):
     if pc> pb:
         pc,pb = pb,pc
@@ -53,3 +53,12 @@ def cacl_amounty(l,pa,pc):
     return l*(pc-pa)/q96
 print(int(cacl_amountx(l1,pb,pc)))
 print(int(cacl_amounty(l1,pa,pc)))
+
+amount_in = 42 * eth
+price_diff = (amount_in * q96) // l1
+print(price_diff)
+sqrtp_cur = 5602277097478614198912276234240
+price_next = sqrtp_cur + price_diff
+print("New price:", (price_next / q96) ** 2)
+print("New sqrtP:", price_next)
+print("New tick:", pricetotick((price_next / q96) ** 2))
