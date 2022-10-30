@@ -40,6 +40,7 @@ amount_eth = 1 * eth
 amount_usdc = 5000 * eth
 l0 = int(liquidity0(amount_eth,pb,pc))
 l1 = int(liquidity1(amount_usdc,pa,pc))
+liq = int(min(l0,l1))
 print(f"l0 = {l0}")
 print(f"l1 = {l1}")
 def cacl_amountx(l,pb,pc):
@@ -62,3 +63,21 @@ price_next = sqrtp_cur + price_diff
 print("New price:", (price_next / q96) ** 2)
 print("New sqrtP:", price_next)
 print("New tick:", pricetotick((price_next / q96) ** 2))
+
+amount_in = 0.01337 * eth
+print(f"\nSelling {amount_in/eth} ETH")
+price_next = int((liq * q96 * sqrtp_cur) // (liq * q96 + amount_in *sqrtp_cur))
+print("New price:" , (price_next / q96) ** 2)
+print("New sqrtP:", price_next)
+print("New tick:", pricetotick((price_next / q96) ** 2))
+
+amount_in = cacl_amountx(liq,price_next,sqrtp_cur)
+amount_out = cacl_amounty(liq,price_next,sqrtp_cur)
+
+print("ETH in", amount_in/eth)
+print("USDC out:" , amount_out/eth)
+
+tick = 4 # 101
+word_pos = tick >> 1
+bit_pos = tick % 256
+print(f"Word {word_pos}, bit {bit_pos}")

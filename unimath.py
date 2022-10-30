@@ -101,3 +101,15 @@ amount_out = calc_amount1(liq, price_next, sqrtp_cur)
 
 print("ETH in:", amount_in / eth)
 print("USDC out:", amount_out / eth)
+
+
+tick = 85176
+word_pos = tick >> 8 # or tick // 2**8
+bit_pos = tick % 256
+print(f"Word {word_pos}, bit {bit_pos}")
+print(f"Word {bin(word_pos)}")
+# Word 332, bit 184
+mask = 2**bit_pos # or 1 << bit_pos
+print(bin(mask))
+word = (2**256) - 1 # set word to all ones
+print(bin(word ^ mask))
