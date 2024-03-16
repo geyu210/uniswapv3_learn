@@ -11,6 +11,7 @@ def price_to_tick(p):
     return math.floor(math.log(p, 1.0001))
 
 
+
 def price_to_sqrtp(p):
     return int(math.sqrt(p) * q96)
 

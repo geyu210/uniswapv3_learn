@@ -14,6 +14,10 @@ i_max = 1.0001 ** 207272
 print(i_max)
 
 def pricetotick(p):
+    """
+    :param p: The price value to convert to a tick value.
+    :return: The tick value corresponding to the given price.
+    """
     tick = int(math.log(p,1.0001))
     return tick
 print(pricetotick(4545))
@@ -22,14 +26,36 @@ print(pricetotick(5500))
 
 #Uniswap uses Q64.96 number to store \sqrt{P} This is a fixed point number that has 64 bits for the integer part and 96 bits for the fractional part
 def price_to_sqrtp(p):
+    """
+    Calculate the square root of a given price and convert it to an integer.
+
+    :param p: The price value for which to calculate the square root.
+    :return: The square root of the price value, rounded to the nearest integer.
+
+    """
     return int(math.sqrt(p) * (2 ** 96))
 print((f"price_to_sqrtp(5000) = {price_to_sqrtp(5000)}"))
 
 def liquidity0(amount, pa, pb):
+    """Calculate the liquidity for a given amount of tokens.
+
+    :param amount: The amount of tokens.
+    :param pa: The price of token A.
+    :param pb: The price of token B.
+    :return: The liquidity for the given amount of tokens.
+    """
     if pa > pb:
         pa,pb = pb,pa
     return amount*(pb*pa/q96)/(pb-pa)
 def liquidity1(amount,pa,pb):
+    """
+
+    :param amount: The amount of liquidity.
+    :param pa: The price of asset A.
+    :param pb: The price of asset B.
+    :return: The liquidity value.
+
+    """
     if pa> pb:
         pa,pb = pb,pa
     return amount * q96/(pb-pa)
@@ -44,11 +70,20 @@ liq = int(min(l0,l1))
 print(f"l0 = {l0}")
 print(f"l1 = {l1}")
 def cacl_amountx(l,pb,pc):
+    """
+    :param l: The length of the object being"""
     if pc> pb:
         pc,pb = pb,pc
     return l*(pb-pc)/((pc*pb)/q96)
 
 def cacl_amounty(l,pa,pc):
+    """
+    :param l: The length parameter.
+    :param pa: The value of parameter 'pa'.
+    :param pc: The value of parameter 'pc'.
+    :return: The calculated amount.
+
+    """
     if pa>pc:
         pa,pc = pc,pa
     return l*(pc-pa)/q96
