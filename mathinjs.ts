@@ -1,9 +1,16 @@
 const q96 = 2**96
 function getBaseLog(x:number, y:number) {
-    return (Math.log(y) / Math.log(x)).toFixed();
+    // return (Math.log(y) / Math.log(x)).toFixed();
+    return (Math.log(y) / Math.log(x));
 }
 
 let tick_low = getBaseLog(1.0001,4545)
+console.log(tick_low)
+ tick_low = getBaseLog(1.0001,3500)
+console.log(tick_low)
+ tick_low = getBaseLog(1.0001,3546)
+console.log(tick_low)
+tick_low = getBaseLog(1.0001,3600)
 console.log(tick_low)
 let tick_now = getBaseLog(1.0001,5000)
 console.log(tick_now)

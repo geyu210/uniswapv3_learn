@@ -1,13 +1,14 @@
 {
-    "name": "uniswapv3_learn",
-    "version": "1.0.0",
-    "main": "index.js",
-    "repository": "https://github.com/geyu210/uniswapv3_learn",
-    "author": "geyu210",
-    "license": "Apache 2.0",
-    "dependencies": {
-      "@types/node": "^20.11.20",
-      "typescript": "^5.3.3",
-      "ts-node": "^10.9.2"
-    }
+  "name": "uniswapv3_learn",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/geyu210/uniswapv3_learn",
+  "author": "geyu210",
+  "license": "Apache 2.0",
+  "dependencies": {
+    "@types/node": "^20.11.20",
+    "create-react-app": "5.0.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
   }
+}
