@@ -66,10 +66,12 @@ contract UniswapV3PoolTest is Test {
                             payer: address(this)
                     });
 
-                UniswapV3Manager(address(manager)).mint(address(pool),params.lowerTick,
-                                params.upperTick,
-                                params.liquidity,
-                                abi.encode(extra));
+                UniswapV3Manager(address(manager)).mint(
+                    address(pool),
+                    params.lowerTick,
+                    params.upperTick,
+                    params.liquidity,
+                    abi.encode(extra));
             assertEq(
                     token0.balanceOf(address(pool)),
                     0.998976618347425280 ether,
