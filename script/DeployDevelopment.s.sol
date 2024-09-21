@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.14;
 
-import "../lib/forge-std/console.sol";
-import "../lib/forge-std/Script.sol";
+import "forge-std/console.sol";
+import "forge-std/Script.sol";
 import "../src/UniswapV3Pool.sol";
 import "../src/UniswapV3Manager.sol";
 import "../test/ERC20Mintable.sol";

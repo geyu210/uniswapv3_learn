@@ -16,6 +16,9 @@ sqrtp_low = price_to_sqrtp(4545)
 sqrtp_cur = price_to_sqrtp(5000)
 sqrtp_upp = price_to_sqrtp(5500)
 
+print(f"sqrtp_low = {sqrtp_low}")
+print(f"sqrtp_cur = {sqrtp_cur}")
+print(f"sqrtp_upp = {sqrtp_upp}")
 def liquidity0(amount, pa, pb):
     if pa > pb:
         pa, pb = pb, pa
@@ -32,6 +35,8 @@ amount_usdc = 5000 * eth
 
 liq0 = liquidity0(amount_eth, sqrtp_cur, sqrtp_upp)
 liq1 = liquidity1(amount_usdc, sqrtp_cur, sqrtp_low)
+print(f"liq0 = {int(liq0)}")
+print(f"liq1 = {int(liq1)}")
 liq = int(min(liq0, liq1))
 print(f"liq = {liq}")
 
@@ -52,6 +57,8 @@ amount1 = calc_amount1(liq, sqrtp_low, sqrtp_cur)
 
 amount_in = 42 * eth
 price_diff = (amount_in * q96) // liq
+print("amount_in = ", amount_in)
+print("Price diff:", price_diff)
 price_next = sqrtp_cur + price_diff
 print("New price:", (price_next / q96) ** 2)
 print("New sqrtP:", price_next)

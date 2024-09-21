@@ -132,3 +132,9 @@ dist
 .idea/starknet.js-examples.iml
 .idea/vcs.xml
 .idea/
+vcs.xml
+/cache
+/lib/solmate
+vcs.xml
+/.idea/vcs.xml
+.idea/vcs.xml
