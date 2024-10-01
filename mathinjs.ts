@@ -7,26 +7,26 @@ function getBaseLog(x:number, y:number) {
 }
 
 let tick_low = getBaseLog(1.0001,4545)
-console.log(tick_low)
-//  tick_low = getBaseLog(1.0001,3500)
-// console.log(tick_low)
-//  tick_low = getBaseLog(1.0001,3546)
-// console.log(tick_low)
-// tick_low = getBaseLog(1.0001,3600)
-// console.log(tick_low)
+console.log(`tick 1.0001,price = 4545 : ${tick_low}`)
+ tick_low = getBaseLog(1.0001,3500)
+console.log(`tick 1.0001,price = 3500 : ${tick_low}`)
+ tick_low = getBaseLog(1.0001,3546)
+console.log(`tick 1.0001,price = 3546 : ${tick_low}`)
+tick_low = getBaseLog(1.0001,3600)
+console.log(`tick 1.0001,price = 3600 : ${tick_low}`)
 let tick_now = getBaseLog(1.0001,5000)
-console.log(tick_now)
+console.log(`tick1 1.0001,price = 5000 : ${tick_now}`)
 let tick_high = getBaseLog(1.0001,5500)
-console.log(tick_high)
+console.log(`tick 1.0001,price = 5500 : ${tick_high}`)
 function pricetotick(p:number){
     return getBaseLog(1.0001,p)
 }
-console.log(pricetotick(4545))
-console.log(pricetotick(5000))
-console.log(pricetotick(5500))
+console.log(`tick 1.0001,price = 4545 : ${pricetotick(4545)}`    )
+console.log(`tick 1.0001,price = 5000 : ${pricetotick(5000)}`)
+console.log(`tick 1.0001,price = 5500 : ${pricetotick(5500)}`)
 
 function price_to_sqrtp(p:number){
-    // 转换p为BigInt
+    // 转换p为BigInt    
     let bigP = BigInt(Math.round(p))
     let sqrtP = Math.sqrt(Number(bigP)); // 计算平方根
     // 计算平方根
