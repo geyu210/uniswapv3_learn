@@ -7,8 +7,10 @@
   "license": "Apache 2.0",
   "dependencies": {
     "@types/node": "^20.11.20",
+    "abitype": "^1.0.6",
     "create-react-app": "5.0.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "viem": "^2.21.16"
   }
 }

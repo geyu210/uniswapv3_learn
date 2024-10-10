@@ -64,6 +64,18 @@ function main() {
     const exponent = 85176;
     const result = Math.pow(base, exponent);
     console.log(result);
+    const base2 = 1.0001;
+    const exponent2 = 276293/2;
+    const result2 = Math.pow(base2, exponent2);
+    console.log(result2);
+
+        const base3 = 1.0001;
+    const exponent3 = Math.floor(276353/2);
+    const result3 = Math.pow(base3, exponent3);
+    console.log(result3);
+
+
+
 }
 
 main();

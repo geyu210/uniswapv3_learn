@@ -74,3 +74,8 @@ print("USDC in:", amount_in / eth)
 print("ETH out:", amount_out / eth)
 # USDC in: 42.0
 # ETH out: 0.008396714242162444
+
+def tick_to_price(tick):
+    return 1.0001**tick
+print(tick_to_price(276293))
+print(tick_to_price(276353))
