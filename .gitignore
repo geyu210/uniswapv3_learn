@@ -1,0 +1,27 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Solidity
+*.sol.js
+*.sol.ts
+
+# IDEs
+.vscode/
+.idea/
+.DS_Store
+
+# Build
+dist/
+build/
+
+# Coverage
+coverage/
+
+/lib/
