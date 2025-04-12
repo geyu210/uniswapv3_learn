@@ -101,3 +101,47 @@ amount_out = calc_amount1(liq, price_next, sqrtp_cur)
 
 print("ETH in:", amount_in / eth)
 print("USDC out:", amount_out / eth)
+
+# 从价格到tickBitmapIndex和位置的计算函数
+def price_to_bitmap_position(price, fee_tier):
+    # 第一步：从价格计算原始tick值
+    tick = price_to_tick(price)
+    
+    # 第二步：确定tickSpacing
+    tick_spacing_map = {
+        0.05: 10,   # 0.05%费率池子
+        0.3: 60,    # 0.3%费率池子
+        1: 200      # 1%费率池子
+    }
+    tick_spacing = tick_spacing_map[fee_tier]
+    
+    # 第三步：计算压缩后的tick索引
+    compressed_tick = tick // tick_spacing
+    
+    # 第四步：分解为tickBitmapIndex和位置i
+    tick_bitmap_index = compressed_tick >> 8  # 右移8位，相当于除以256
+    position_i = compressed_tick & 0xFF       # 取低8位，相当于对256取模
+    
+    return {
+        "原始价格": price,
+        "原始tick": tick,
+        "tickSpacing": tick_spacing,
+        "压缩后的tick": compressed_tick,
+        "tickBitmapIndex": tick_bitmap_index,
+        "位置i": position_i
+    }
+
+# 测试函数
+if __name__ == "__main__":
+    # 测试示例：价格29.5，费率0.3%
+    price = (price_next / q96) ** 2
+    fee_tier = 0.3
+    result = price_to_bitmap_position(price, fee_tier)
+    
+    print("\n从价格到Bitmap位置的计算")
+    print(f"价格: {result['原始价格']}")
+    print(f"原始tick: {result['原始tick']}")
+    print(f"tickSpacing: {result['tickSpacing']}")
+    print(f"压缩后的tick: {result['压缩后的tick']}")
+    print(f"tickBitmapIndex: {result['tickBitmapIndex']}")
+    print(f"位置i: {result['位置i']}")
