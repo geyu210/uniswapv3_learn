@@ -31,3 +31,4 @@ broadcast/
 
 # Env
 .env
+lib/
