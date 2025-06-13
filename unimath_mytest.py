@@ -11,7 +11,7 @@ print(1.0001**86129)
 i_max = 1.0001 ** 887272
 print(i_max)
 i_max = 1.0001 ** 207272
-print(i_max)
+print(i_max)ππ
 
 def pricetotick(p):
     tick = int(math.log(p,1.0001))

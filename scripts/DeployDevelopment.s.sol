@@ -1,15 +1,17 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.14;
 
+import "forge-std/console.sol";
 import "forge-std/Script.sol";
 import "../src/UniswapV3Pool.sol";
 import "../src/UniswapV3Manager.sol";
+import "../src/UniswapV3Quoter.sol";
 import "../test/ERC20Mintable.sol";
 
 contract DeployDevelopment is Script {
     function run() public {
-        uint256 wethBalance = 1 ether;
-        uint256 usdcBalance = 5042 ether;
+        uint256 wethBalance = 10 ether;
+        uint256 usdcBalance = 100000 ether;
         int24 currentTick = 85176;
         uint160 currentSqrtP = 5602277097478614198912276234240;
 
@@ -25,6 +27,7 @@ contract DeployDevelopment is Script {
         );
 
         UniswapV3Manager manager = new UniswapV3Manager();
+        UniswapV3Quoter quoter = new UniswapV3Quoter();
 
         token0.mint(msg.sender, wethBalance);
         token1.mint(msg.sender, usdcBalance);
@@ -35,5 +38,6 @@ contract DeployDevelopment is Script {
         console.log("USDC address", address(token1));
         console.log("Pool address", address(pool));
         console.log("Manager address", address(manager));
+        console.log("Quoter address", address(quoter));
     }
 }
