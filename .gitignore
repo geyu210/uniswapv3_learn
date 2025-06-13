@@ -140,3 +140,19 @@ vcs.xml
 .idea/vcs.xml
 
 /lib/
+# 依赖库
+/lib/forge-std/
+/lib/solmate/
+forge-std/
+solmate/
+
+# Foundry 相关
+out/
+cache/
+broadcast/
+
+# 其他
+.DS_Store
+.env
+/lib/forge-std/
+/lib/solmate/
