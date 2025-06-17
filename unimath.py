@@ -23,7 +23,7 @@ def tick_to_sqrtp(t):
 def liquidity0(amount, pa, pb):
     if pa > pb:
         pa, pb = pb, pa
-    return (amount * (pa * pb) / q96) / (pb - pa) #q96只是单位，所以不能有次方
+    return (amount * (pa * pb) / q96) / (pb - pa) #把q96消掉，正好是公式的要求，否则信息就多了
 
 
 def liquidity1(amount, pa, pb):
@@ -110,7 +110,7 @@ bit_pos = tick % 256
 print(f"Word {word_pos}, bit {bit_pos}")
 print(f"Word {bin(word_pos)}")
 # Word 332, bit 184
-mask = 2**bit_pos # or 1 << bit_pos
-print(bin(mask))
-word = (2**256) - 1 # set word to all ones
-print(bin(word ^ mask))
+# mask = 2**bit_pos # or 1 << bit_pos
+# print(bin(mask))
+# word = (2**256) - 1 # set word to all ones
+# print(bin(word ^ mask))
