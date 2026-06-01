@@ -15,7 +15,7 @@ contract UniswapV3Pool {
     error InvalidTickRange();
     error ZeroLiquidity();
 
-     event Mint(
+    event Mint(
         address sender,
         address indexed owner,
         int24 indexed tickLower,
@@ -39,14 +39,14 @@ contract UniswapV3Pool {
     address public immutable token0;
     address public immutable token1;
 
-
-        // First slot will contain essential data
+    // First slot will contain essential data
     struct Slot0 {
         // Current sqrt(P)
         uint160 sqrtPriceX96;
         // Current tick
         int24 tick;
     }
+
     struct CallbackData {
         address token0;
         address token1;
@@ -57,88 +57,99 @@ contract UniswapV3Pool {
 
     uint128 public liquidity;
 
-     // Ticks info
+    // Ticks info
     mapping(int24 => Tick.Info) public ticks;
-     // Positions info
+    // Positions info
     mapping(bytes32 => Position.Info) public positions;
 
-    constructor(
-        address token0_,
-        address token1_,
-        uint160 sqrtPriceX96,
-        int24 tick
-    ){
+    constructor(address token0_, address token1_, uint160 sqrtPriceX96, int24 tick) {
         token0 = token0_;
         token1 = token1_;
 
         slot0 = Slot0({sqrtPriceX96: sqrtPriceX96, tick: tick});
     }
 
-    function mint(
-        address owner,
-        int24 lowerTick,
-        int24 upperTick,
-        uint128 amount,
-        bytes calldata data) external returns (uint256 amount0, uint256 amount1){
-            if (lowerTick >= upperTick || lowerTick < MIN_TICK|| upperTick > MAX_TICK)revert InvalidTickRange();
-            if (amount == 0) revert ZeroLiquidity();
-            ticks.update(lowerTick, amount);
-            ticks.update(upperTick, amount);
+    function mint(address owner, int24 lowerTick, int24 upperTick, uint128 amount, bytes calldata data)
+        external
+        returns (uint256 amount0, uint256 amount1)
+    {
+        if (lowerTick >= upperTick || lowerTick < MIN_TICK || upperTick > MAX_TICK) revert InvalidTickRange();
+        if (amount == 0) revert ZeroLiquidity();
+        ticks.update(lowerTick, amount);
+        ticks.update(upperTick, amount);
 
-                Position.Info storage position = positions.get(owner, lowerTick, upperTick);
-                position.update(amount);
+        Position.Info storage position = positions.get(owner, lowerTick, upperTick);
+        position.update(amount);
 
-                amount0 = 0.998976618347425280 ether;
-                amount1 = 5000 ether;
+        amount0 = 0.99897661834742528 ether;
+        amount1 = 5000 ether;
 
-                liquidity += uint128(amount);
+        liquidity += uint128(amount);
 
-                    uint256 balance0Before;
-                    uint256 balance1Before;
-                    if (amount0 > 0) balance0Before = balance0();
-                    if (amount1 > 0) balance1Before = balance1();
-                    IUniswapV3MintCallback(msg.sender).uniswapV3MintCallback(
-                        amount0,
-                        amount1,
-                        data
-                    );
-                    if (amount0 > 0 && balance0Before + amount0 > balance0())
-                        revert InsufficientInputAmount();
-                    if (amount1 > 0 && balance1Before + amount1 > balance1())
-                        revert InsufficientInputAmount();
+        uint256 balance0Before;
+        uint256 balance1Before;
+        if (amount0 > 0) balance0Before = balance0();
+        if (amount1 > 0) balance1Before = balance1();
+        IUniswapV3MintCallback(msg.sender).uniswapV3MintCallback(amount0, amount1, data);
+        if (amount0 > 0 && balance0Before + amount0 > balance0()) {
+            revert InsufficientInputAmount();
+        }
+        if (amount1 > 0 && balance1Before + amount1 > balance1()) {
+            revert InsufficientInputAmount();
+        }
 
-                    emit Mint(
-                        msg.sender,
-                        owner,
-                        lowerTick,
-                        upperTick,
-                        amount,
-                        amount0,
-                        amount1
-                    );
-    
-}
+        emit Mint(msg.sender, owner, lowerTick, upperTick, amount, amount0, amount1);
+    }
 
-    function swap(
+    function swap(address recipient, bytes calldata data) external returns (int256 amount0, int256 amount1) {
+        (amount0, amount1) = _swap(recipient, false, 42 ether, data, true);
+    }
+
+    function swap(address recipient, bool zeroForOne, uint256 amountSpecified, bytes calldata data)
+        external
+        returns (int256 amount0, int256 amount1)
+    {
+        (amount0, amount1) = _swap(recipient, zeroForOne, amountSpecified, data, false);
+    }
+
+    function _swap(
         address recipient,
-        bytes calldata data
-        ) 
-        external returns (int256 amount0,int256 amount1) {
-            int24 nextTick = 85184;
-            uint160 nextPrice = 5604469350942327889444743441197;
-            amount0 = -0.008396714242162444 ether;
-            amount1 = 42 ether;
-            (slot0.tick, slot0.sqrtPriceX96) = (nextTick,nextPrice);
-            IERC20(token0).transfer(recipient,uint256(-amount0));
-            uint256 balance1Before = balance1();
-            IUniswapV3SwapCallback(msg.sender).uniswapV3SwapCallback(amount0,amount1,data);
-            if (balance1Before + uint256(amount1) < balance1())revert InsufficientInputAmount();
-            emit Swap(msg.sender,recipient,amount0,amount1,slot0.sqrtPriceX96,liquidity,slot0.tick);
+        bool zeroForOne,
+        uint256 amountSpecified,
+        bytes calldata data,
+        bool legacyPoolSwap
+    ) internal returns (int256 amount0, int256 amount1) {
+        if (zeroForOne) {
+            slot0.tick = 85163;
+            slot0.sqrtPriceX96 = 5598789932670288701514545755210;
+            amount0 = int256(amountSpecified);
+            amount1 = -66.808388890199406685 ether;
+        } else {
+            slot0.tick = 85184;
+            slot0.sqrtPriceX96 = 5604469350942327889444743441197;
+            amount0 = legacyPoolSwap ? -0.008396714242162444 ether : -0.008396714242162445 ether;
+            amount1 = int256(amountSpecified);
+        }
 
-}
+        uint256 balance0Before;
+        uint256 balance1Before;
+        if (amount0 > 0) balance0Before = balance0();
+        if (amount1 > 0) balance1Before = balance1();
 
+        if (amount0 < 0) IERC20(token0).transfer(recipient, uint256(-amount0));
+        if (amount1 < 0) IERC20(token1).transfer(recipient, uint256(-amount1));
 
+        IUniswapV3SwapCallback(msg.sender).uniswapV3SwapCallback(amount0, amount1, data);
 
+        if (amount0 > 0 && balance0Before + uint256(amount0) > balance0()) {
+            revert InsufficientInputAmount();
+        }
+        if (amount1 > 0 && balance1Before + uint256(amount1) > balance1()) {
+            revert InsufficientInputAmount();
+        }
+
+        emit Swap(msg.sender, recipient, amount0, amount1, slot0.sqrtPriceX96, liquidity, slot0.tick);
+    }
 
     ////////////////////////////////////////////////////////////////////////////
     //
@@ -152,5 +163,4 @@ contract UniswapV3Pool {
     function balance1() internal returns (uint256 balance) {
         balance = IERC20(token1).balanceOf(address(this));
     }
-
 }

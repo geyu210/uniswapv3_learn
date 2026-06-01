@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="VcsDirectoryMappings">
-    <mapping directory="" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/lib/forge-std" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/lib/solmate" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/txs/tick_to_price/tick-price-animation" vcs="Git" />
-  </component>
-</project>

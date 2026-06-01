@@ -94,7 +94,7 @@ const TickPriceAnimation = () => {
                 cancelAnimationFrame(animationRef.current);
             }
         };
-    }, [isPlaying, speed]);
+    }, [isPlaying, speed, minTick, maxTick]);
 
     // SVG 参数
     const width = 900;
