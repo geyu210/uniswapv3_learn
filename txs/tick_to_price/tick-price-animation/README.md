@@ -55,7 +55,7 @@ npm run deploy
 示例命令：
 
 ```bash
-ffmpeg -y -framerate 12 -i frame_%03d.png \
+ffmpeg -y -t 8 -framerate 12 -i frame_%03d.png \
   -vf "fps=8,scale=640:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=64[p];[s1][p]paletteuse=dither=bayer:bayer_scale=4" \
   ../../../docs/assets/tick-price-animation.gif
 ```
@@ -63,7 +63,7 @@ ffmpeg -y -framerate 12 -i frame_%03d.png \
 如果截图工具保存的是 JPEG 内容但文件名是 `.png`，需要显式告诉 ffmpeg 输入格式：
 
 ```bash
-ffmpeg -y -framerate 12 -c:v mjpeg -i frame_%03d.png \
+ffmpeg -y -t 8 -framerate 12 -c:v mjpeg -i frame_%03d.png \
   -vf "fps=8,scale=640:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=64[p];[s1][p]paletteuse=dither=bayer:bayer_scale=4" \
   ../../../docs/assets/tick-price-animation.gif
 ```

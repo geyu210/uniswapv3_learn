@@ -2,15 +2,19 @@
 
 [中文](#uniswap-v3-learn) | [English](#english-version)
 
+![Tick price animation](docs/assets/tick-price-animation.gif)
+
+<p align="center">
+  <a href="https://geyu210.github.io/tick-price-animation/"><strong>Live Demo: Tick-to-Price Animation</strong></a>
+</p>
+
 这是我公开记录 Uniswap V3 学习过程的仓库。这里不是官方实现，也不是生产级合约，而是把学习中的数学推导、最小化合约实现、测试案例和可视化实验放在一起，方便自己复盘，也方便后来的人顺着同一条路学习。
 
 ## Tick、Price 与 sqrtPrice 动画
 
-下面这个动画展示了 Uniswap V3 里 `tick`、`price` 和 `sqrtPrice` 的关系。它适合在刚开始理解 `price = 1.0001^tick`、`sqrtPriceX96`、价格区间和流动性之前先看一遍。
+顶部动画展示了 Uniswap V3 里 `tick`、`price` 和 `sqrtPrice` 的关系。它适合在刚开始理解 `price = 1.0001^tick`、`sqrtPriceX96`、价格区间和流动性之前先看一遍。
 
-![Tick price animation](docs/assets/tick-price-animation.gif)
-
-- 在线页面：[https://geyu210.github.io/tick-price-animation/](https://geyu210.github.io/tick-price-animation/)
+- 在线体验：[Live Demo: Tick-to-Price Animation](https://geyu210.github.io/tick-price-animation/)
 - 源码目录：[txs/tick_to_price/tick-price-animation](txs/tick_to_price/tick-price-animation)
 
 ## 推荐学习路线
@@ -109,6 +113,11 @@ npm start
 - `liquidity`：某个价格区间里提供的流动性数量。
 - `TickBitmap`：用一个个二进制位记录哪些 tick 有流动性边界。
 
+## Roadmap / Next Steps
+
+- Next: Simulating Uniswap v4 Hooks dynamics & introducing security attack vector visualizations.
+- 将现有 tick-price 可视化方式继续扩展到 v4 Hooks、动态交换路径、攻击向量和防御视角的交互演示。
+
 ## 学习状态说明
 
 这个仓库保留了一些草稿、实验和中间版本。它们的价值不在于“最终答案”，而在于展示学习 Uniswap V3 时如何从公式、脚本、测试，再慢慢走到合约实现。阅读时建议优先跟着测试和 `src/lib` 看，遇到公式不直观时再回到脚本和动画。
@@ -121,11 +130,9 @@ This repository is a public record of my Uniswap V3 learning process. It is not 
 
 ## Tick, Price, And sqrtPrice Animation
 
-The animation below shows the relationship between `tick`, `price`, and `sqrtPrice` in Uniswap V3. It is a good first stop before diving into `price = 1.0001^tick`, `sqrtPriceX96`, price ranges, and liquidity.
+The animation at the top shows the relationship between `tick`, `price`, and `sqrtPrice` in Uniswap V3. It is a good first stop before diving into `price = 1.0001^tick`, `sqrtPriceX96`, price ranges, and liquidity.
 
-![Tick price animation](docs/assets/tick-price-animation.gif)
-
-- Live page: [https://geyu210.github.io/tick-price-animation/](https://geyu210.github.io/tick-price-animation/)
+- Live demo: [Live Demo: Tick-to-Price Animation](https://geyu210.github.io/tick-price-animation/)
 - Source: [txs/tick_to_price/tick-price-animation](txs/tick_to_price/tick-price-animation)
 
 ## Suggested Learning Path
@@ -223,6 +230,11 @@ Open [http://localhost:3000](http://localhost:3000) in a browser.
 - `sqrtPriceX96`: the square root of price scaled by `2^96`, which makes integer math practical.
 - `liquidity`: the amount of liquidity provided inside a price range.
 - `TickBitmap`: a compact bitmap that records which ticks are initialized.
+
+## Roadmap / Next Steps
+
+- Next: Simulating Uniswap v4 Hooks dynamics & introducing security attack vector visualizations.
+- Extend the current tick-price animation style into interactive simulations for hooks, swap dynamics, attack vectors, and defensive reasoning.
 
 ## Learning Status
 
